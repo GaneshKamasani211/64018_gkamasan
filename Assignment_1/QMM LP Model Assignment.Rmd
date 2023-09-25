@@ -1,0 +1,262 @@
+---
+title: "QMM Assignment"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+date: "2023-09-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Assignment Module 2 Problem 1- The LP Model
+
+    Back Savers is a company that produces backpacks primarily for students. They are considering offering some combination of two different models—the Collegiate and the Mini. Both are made out of the same rip-resistant nylon fabric. Back Savers has a longterm contract with a supplier of the nylon and receives a 5000 square-foot shipment of the material each week. Each Collegiate requires 3 square feet while each Mini requires 2 square feet. The sales forecasts indicate that at most 1000 Collegiates and 1200 Minis can be sold per week. Each Collegiate requires 45 minutes of labor to produce and generates a unit profit of $32. Each Mini requires 40 minutes of labor and generates a unit profit of $24. Back Savers has 35 laborers that each provides 40 hours of labor per week. Management wishes to know what quantity of each type of backpack to produce per week.
+
+    (a) Clearly define the decision variables
+    (b) What is the objective function?
+    (c) What are the constraints?
+    (d) Write down the full mathematical formulation for this LP problem
+
+````{r}
+
+Back_Savers <- matrix(c(45,3,1000,"$32",
+               40,2,1200,"$24"), ncol=4, byrow=TRUE)
+
+colnames(Back_Savers) <- c("Labor","Materil(sq.ft)","Sales","profit($)")
+rownames(Back_Savers) <- c("Collegiate","Mini")
+
+final=as.table(Back_Savers)
+
+final
+````
+
+# Explanation
+
+# Declaring decision Variable
+
+**Assume**
+
+No. of collegiate bags can be produce per week = $C_x$
+
+No. of Mini bags can be produce per week = $M_x$
+
+# Declaring Objective function 
+
+Management wants to know how much quantity of each type of bags can produce in week, and also by declaring this objective we can also get how much profit that "Back Savers" will make.
+
+$$ Max \hspace{.2cm} Z = 32c_x+24m_x $$
+
+# Declaring constrain
+
+**Material**
+
+Back Savers have agreement with nylon suppler so the company will get the 5000 sq.ft of Material every week. 
+
+$$ 3c_x+2m_x \le 5000 $$
+
+**Labor**
+
+Back Savers has 30 labor's where each one can produce 40 hours in week 
+
+$$ 45c_x+40m_x \le 30*40*60 $$
+**Sales**
+
+Back savers company can produce only the mentioned quantity
+
+
+$$C_x \le 1000 \hspace{.2cm} and \hspace{.2cm}M_x \le 1200 $$
+
+**Non-Negative Constrains**
+
+Production of each bags(Collegaite and Mini) can not be in negative
+
+
+$$ C_x \ge 0 \hspace{.2cm} and \hspace{.2cm} M_x \ge 0 $$
+
+
+# Matematical formulation 
+
+
+$$ Max \hspace{.2cm} Z = 32c_x+24m_x $$
+
+
+$3c_x+2m_x \le 5000$
+
+$45C_X+40M_X \le 35*40*60$
+
+$C_x \le 1000$
+
+$M_x \le 1200$
+
+$C_x \ge 0$
+
+$M_x \ge 0$
+
+
+***End of Problem 1***
+
+
+# Assignment Module 2 Problem 2- The LP Model
+
+    The Weigelt Corporation has three branch plants with excess production capacity. Fortunately, the corporation has a new product ready to begin production, and all three plants have this capability, so some of the excess capacity can be used in this way. This product can be made in three sizes--large, medium, and small--that yield a net unit profit of $420, $360, and $300, respectively. Plants 1, 2, and 3 have the excess capacity to produce 750, 900, and 450 units per day of this product, respectively, regardless of the size or combination of sizes involved.
+
+    The amount of available in-process storage space also imposes a limitation on the production rates of the new product. Plants 1, 2, and 3 have 13,000, 12,000, and 5,000 square feet, respectively, of in-process storage space available for a day's production of this product. Each unit of the large, medium, and small sizes produced per day requires 20, 15, and 12 square feet, respectively. Sales forecasts indicate that if available, 900, 1,200, and 750 units of the large, medium, and small sizes, respectively, would be sold per day.
+
+    At each plant, some employees will need to be laid off unless most of the plant’s excess production capacity can be used to produce the new product. To avoid layoffs if possible, management has decided that the plants should use the same percentage of their excess capacity to produce the new product. Management wishes to know how much of each of the sizes should be produced by each of the plants to maximize profit.
+
+    a. Define the decision variables
+
+    b. Formulate a linear programming model for this problem. 
+    
+```{r}
+
+Weigelt_Plant <- matrix(c(750,900,450,13000,12000,5000), ncol = 3, byrow = TRUE )
+
+colnames(Weigelt_Plant) <- c("Plant1","Plant2","Plant3")
+rownames(Weigelt_Plant) <- c("Capacity","Space Available(Sq.Ft)")
+
+final=as.table(Weigelt_Plant)
+
+final
+
+
+Weigelt_Decleration <- matrix(c(900,1200,750,20,15,12,"$420","$360","$300"), ncol = 3, byrow = TRUE )
+
+colnames(Weigelt_Decleration) <- c("Large","Medium","Small")
+rownames(Weigelt_Decleration) <- c("Sales","Space Req(Sq.Ft)","Profit$")
+
+final=as.table(Weigelt_Decleration)
+
+final
+
+```
+
+# Explanation
+
+# Declaring decision Variable
+
+**Assume**
+
+  Let's $A_gk$ will be number of Units and size $g$(where  $g$ can be "Large", "Medium", "Small") produced in three different plant which is mentioned as $k$ ("Plant1", "Plant2", "Plant3")
+
+  For better Understanding we consider Sizes and Plants as mentioned below.
+
+***(Sizes)***
+
+Large = $l$
+
+Medium = $m$
+
+Small = $s$
+
+**(Plants)**
+
+Plant1 = $p1$
+
+Plant1 = $p2$
+
+Plant3 = $p3$
+
+
+***Small size product***
+
+Number of small sized units produced at Plant 1 = $A_s,p1$
+
+Number of small sized units produced at Plant 2 = $A_s,p2$
+
+Number of small sized units produced at Plant 3 = $A_s,p3$
+
+***Medium size product***
+
+Number of Medium sized units produced at Plant 1 = $A_m,p1$
+
+Number of Medium sized units produced at Plant 2 = $A_m,p2$
+
+Number of Medium sized units produced at Plant 3 = $A_m,p3$
+
+***Large size product***
+
+Number of Large sized units produced at Plant 1 = $A_l,p1$
+
+Number of Large sized units produced at Plant 2 = $A_l,p2$
+
+Number of Large sized units produced at Plant 3 = $A_l,p3$
+
+
+# Declaring Objective function 
+
+        Management wishes to know how much of each of the sizes should be produced by each of the plants to maximize profit.
+        
+
+$$ Max \hspace{.2cm} Z = 420(A_l,p1+A_m,p2+A_s,p3)+360(A_m,p1+A_m,p2+A_m,p3)+300(A_s,p1+A_s,p2+A_s,p3)$$
+
+
+# Production Capacity constraint
+
+      Each plant have there own capacity to produce three different size of productes as mentioned below. 
+      
+***Plant1 capacity***
+
+$$ (A_s,p1+A_m,p1+A_l,p1) \le 750 $$
+
+***Plant2 capacity***
+
+$$ (A_s,p2+A_m,p2+A_l,p2) \le 900 $$
+***Plant3 capacity***
+
+$$ (A_s,p3+A_m,p3+A_l,p3) \le 450 $$
+
+# Storage Constraints
+
+***Plant1*** 
+
+$$ 20A_l,p1+15A_m,p1+12A_s,p1 \le 13000 $$
+***Plant2***
+
+$$ 20A_l,p2+15A_m,p2+12A_s,p2 \le 12000 $$
+***plant3***
+
+$$ 20A_l,p3+15A_m,p3+12A_s,p3 \le 5000 $$
+
+# Sales Constraints
+
+***Small Size product Capacity***
+
+$$A_s,p1+A_s,p2+A_s,p3 \le 750 $$
+***Medium Size product Capacity***
+
+$$A_m,p1+A_m,p2+A_m,p3 \le 1200 $$
+***Large Size product Capacity***
+
+$$A_l,p1+A_l,p2+A_l,p3 \le 900 $$
+
+# Non-Negativity Contraints 
+
+    Note: As Mentioned above G is the size of products and K refers all three plants 
+    
+$$ A_gk \ge 0 $$
+
+# Matematical formulation 
+
+$$ Max \hspace{.2cm} Z = 420(A_l,p1+A_m,p2+A_s,p3)+360(A_m,p1+A_m,p2+A_m,p3)+300(A_s,p1+A_s,p2+A_s,p3)$$
+
+
+***Constraints***
+
+$$ (A_s,p1+A_m,p1+A_l,p1) \le 750 $$
+$$ (A_s,p2+A_m,p2+A_l,p2) \le 900 $$
+$$ (A_s,p3+A_m,p3+A_l,p3) \le 450 $$
+
+$$ 20A_l,p1+15A_m,p1+12A_s,p1 \le 13000 $$
+$$ 20A_l,p2+15A_m,p2+12A_s,p2 \le 12000 $$
+$$ 20A_l,p3+15A_m,p3+12A_s,p3 \le 5000 $$
+
+$$A_s,p1+A_s,p2+A_s,p3 \le 750 $$
+$$A_m,p1+A_m,p2+A_m,p3 \le 1200 $$
+$$A_l,p1+A_l,p2+A_l,p3 \le 900 $$
+
+$$ A_gk \ge 0 $$
